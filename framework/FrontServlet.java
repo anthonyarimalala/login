@@ -27,7 +27,8 @@ public class FrontServlet extends HttpServlet{
     public void init() throws ServletException {
         try {
         mappingUrls = new HashMap<String, Mapping>();
-        String packageName = "etu2033.model";
+        // String packageName = "etu2033.model";
+        String packageName = getServletContext().getInitParameter("packageName");
         URL root = Thread.currentThread().getContextClassLoader().getResource(packageName.replace(".", "//")); 
             for (File file : new File(root.getFile().replaceAll("%20", " ")).listFiles()) {
                 if (file.getName().contains(".class")) {
