@@ -35,7 +35,7 @@
 
     <context-param>
       <param-name>packageName</param-name>
-      <param-value>etu2033.model</param-value>
+      <param-value>.</param-value>
     </context-param>
 
 </web-app>
