@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.lang.reflect.*;
 
 public class FrontServlet extends HttpServlet{ 
-    
+    HashMap<String,Mapping> mappingUrls;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
