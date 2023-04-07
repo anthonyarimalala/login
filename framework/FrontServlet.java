@@ -97,9 +97,20 @@ public class FrontServlet extends HttpServlet{
             String method = (String) mappingUrls.get(nomMethode).getMethod();
             Method methode = object.getClass().getDeclaredMethod(method);
             Object retour = (ModelView) methode.invoke(object);
-            out.println(((ModelView) retour).getView());
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("/"+((ModelView) retour).getView());
-            out.println("<br><strong>Page: </strong>"+((ModelView) retour).getView());
+    ///Model view
+            ModelView mv_retour = (ModelView) retour;
+            out.println(mv_retour.getView());
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("/"+mv_retour.getView());
+            out.println("<br><strong>Page: </strong>"+mv_retour.getView());
+
+    ///HashMap
+            HashMap<String,Object> data = mv_retour.getData();
+            for(Map.Entry<String, Object> entry: data.entrySet()){
+                request.setAttribute(entry.getKey(), entry.getValue());
+            }
+
+            
+
             requestDispatcher.forward(request,response);
             } catch (Exception e) {
                 //TODO: handle exception

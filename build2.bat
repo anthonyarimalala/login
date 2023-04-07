@@ -1,9 +1,5 @@
 cd framework
-    javac -d . FrontServlet.java
-    javac -d . Mapping.java
-    javac -d . url.java
-    javac -d .  ModelView.java
-    @REM javac -d . *.java
+    javac -d . *.java
     jar -cf fw.jar .
     copy fw.jar "D:\Devoirs\MrNaina\framework1\test-framework\WEB-INF\lib"
 
