@@ -1,3 +1,7 @@
+<%
+String nom= (String) request.getAttribute("koto");
+out.println(nom);
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
