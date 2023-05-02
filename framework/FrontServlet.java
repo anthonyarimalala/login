@@ -1,6 +1,7 @@
 package etu2033.framework.servlet;
 
 import etu2033.framework.Mapping;
+import etu2033.fonctions.Fonction;
 import etu2033.annotation.url;
 import etu2033.framework.Mapping;
 import etu2033.process.ModelView;
@@ -8,6 +9,7 @@ import etu2033.process.ModelView;
 import java.io.*;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,18 +54,11 @@ public class FrontServlet extends HttpServlet{
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
 
+        
 
             String packageName = getServletContext().getInitParameter("packageName");
             URL root = Thread.currentThread().getContextClassLoader().getResource(packageName.replace(".", "//")); 
             
-            // mappingUrls = new HashMap<String, Mapping>();
-            // // String packageName = "etu2033.model";
-            // String packageName = getServletContext().getInitParameter("packageName");
-            // out.println("<strong>PackageName????: </strong>"+ packageName + "<br>");
-            // URL root = Thread.currentThread().getContextClassLoader().getResource(packageName.replace(".", "//")); 
-            // out.println("<strong>Root:</strong> "+root);
-
-            // out.println("<br>");
             /* TODO output your page here. You may use following sample code. */
             out.println("<strong>MappingUrls(size): </strong> = " + mappingUrls.size() +" ,<br>");
             out.println("<strong>Root</strong> = " + root +",<br>");
@@ -76,10 +71,7 @@ public class FrontServlet extends HttpServlet{
             out.println("<br>");
             out.println("<strong>Method</strong> = " + request.getMethod().toString());
             out.println("<br>");
-            // String nom = request.getQueryString();
-            // if(!nom.equals("")){
-            //     out.println(nom);
-            // }
+
             out.println("<strong>Cle: </strong>"+cle+"<br>");
             for(String key : mappingUrls.keySet()){
                 Mapping mapping = mappingUrls.get(key);
@@ -96,7 +88,30 @@ public class FrontServlet extends HttpServlet{
             Object object = cl.newInstance();
             String method = (String) mappingUrls.get(nomMethode).getMethod();
             Method methode = object.getClass().getDeclaredMethod(method);
-            Object retour = (ModelView) methode.invoke(object);
+
+            Object retour = new Object();
+
+            ///Maka donnees avy am formulaire
+            Enumeration<String> paramNames = request.getParameterNames();
+            if (paramNames.hasMoreElements()) {
+                HashMap<String,String> formulaireDonnees = new HashMap<>();
+                while (paramNames.hasMoreElements()) {
+                    String name = paramNames.nextElement();
+                    String[] paramValues = request.getParameterValues(name);
+
+                    for(String paramValue : paramValues){
+                        formulaireDonnees.put(name,paramValue);
+                    }
+
+                }
+                object = Fonction.buildObject(cl, formulaireDonnees);
+                
+                
+            }
+                retour = (ModelView) methode.invoke(object);
+            
+
+            
     ///Model view
             ModelView mv_retour = (ModelView) retour;
             out.println(mv_retour.getView());
@@ -131,5 +146,6 @@ public class FrontServlet extends HttpServlet{
         processRequest(request, response);
     }
 
+    
 
 }
