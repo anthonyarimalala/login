@@ -21,8 +21,6 @@ public class Emp {
         ModelView modelView = new ModelView();
         modelView.addItem("ty",this);
         modelView.setView("prenom.jsp");
-        // String nom =  "Rakoto";
-        // modelView.addItem("koto", nom);
         return modelView;
     }
 
