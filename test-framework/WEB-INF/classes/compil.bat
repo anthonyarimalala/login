@@ -1,1 +1,0 @@
-javac -cp ../lib/fw.jar -d . Emp.java
